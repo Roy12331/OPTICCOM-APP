@@ -1,54 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'screens/login_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/detalle_screen.dart';
+import 'screens/formulario_screen.dart';
+import 'models/orden_model.dart';
+import 'screens/main_container.dart';
 
-// IMPORTS DE TUS PANTALLAS (Asegúrate que las rutas sean correctas)
-import 'screens/my_home_page.dart';
-import 'screens/notificaciones_page.dart';
-import 'screens/historial_page.dart';
-import 'screens/formulario_page.dart'; // Asumo que crearás esta pronto
+void main() => runApp(const MyApp());
 
-void main() {
-  runApp(const MyApp());
-}
-
-/// CONFIGURACIÓN DEL ROUTER (EL MAPA)
 final GoRouter _router = GoRouter(
-  initialLocation: '/', // La app arranca aquí (Login)
+  initialLocation: '/',
   routes: [
-    // RUTA 1: LOGIN (La raíz "/")
+    GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
+    // CAMBIO IMPORTANTE: La ruta /home ahora carga el CONTENEDOR PRINCIPAL
     GoRoute(
-      path: '/',
-      builder: (context, state) => const MyHomePage(title: 'OPTICCOM Login'),
+      path: '/home',
+      builder: (context, state) {
+        final idTecnico = state.extra as int? ?? 0;
+        return MainContainer(idTecnico: idTecnico); // Usamos MainContainer
+      },
     ),
-
-    // RUTA 2: LISTA DE ÓRDENES (Notificaciones)
     GoRoute(
-      path: '/notificaciones',
-      builder: (context, state) => const NotificacionesPage(),
+      path: '/detalle',
+      builder: (context, state) {
+        final orden = state.extra as OrdenTrabajo;
+        return DetalleScreen(orden: orden);
+      },
     ),
-
-    // RUTA 3: HISTORIAL (Perfil)
-    GoRoute(
-      path: '/historial',
-      builder: (context, state) => const HistorialPage(),
-    ),
-
-    // RUTA 4: FORMULARIO (Detalle de trabajo)
-    // RUTA 4: FORMULARIO (Detalle de trabajo)
     GoRoute(
       path: '/formulario',
       builder: (context, state) {
-        // Ahora retornamos la página real, no el texto placeholder
-        return const FormularioPage();
-      },
-    ),
-    // RUTA NUEVA: REGISTRO
-    GoRoute(
-      path: '/registro',
-      builder: (context, state) {
-        return const Scaffold(
-          body: Center(child: Text("Pantalla de Registro (En construcción)")),
-        );
+        final orden = state.extra as OrdenTrabajo;
+        return FormularioScreen(orden: orden);
       },
     ),
   ],
@@ -56,22 +40,16 @@ final GoRouter _router = GoRouter(
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    // CAMBIO CLAVE: Usamos .router en lugar de MaterialApp normal
     return MaterialApp.router(
-      title: 'OPTICCOM App',
-      debugShowCheckedModeBanner: false,
-
-      // TEMA: Naranja corporativo
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9800)),
-        useMaterial3: true,
-      ),
-
-      // CONECTAMOS EL GPS A LA APP
       routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+      title: 'Opticcom App',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9800)),
+      ),
     );
   }
 }
