@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/login_screen.dart';
+<<<<<<< HEAD
+=======
+import 'screens/home_screen.dart';
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
 import 'screens/detalle_screen.dart';
 import 'screens/formulario_screen.dart';
 import 'models/orden_model.dart';
@@ -12,6 +16,7 @@ final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
+<<<<<<< HEAD
     GoRoute(
       path: '/home',
       builder: (context, state) {
@@ -19,6 +24,14 @@ final GoRouter _router = GoRouter(
             state.extra as Map<String, dynamic>? ??
             {'id': 1, 'nombre': 'Técnico'};
         return MainContainer(userData: userData);
+=======
+    // CAMBIO IMPORTANTE: La ruta /home ahora carga el CONTENEDOR PRINCIPAL
+    GoRoute(
+      path: '/home',
+      builder: (context, state) {
+        final idTecnico = state.extra as int? ?? 0;
+        return MainContainer(idTecnico: idTecnico); // Usamos MainContainer
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
       },
     ),
     GoRoute(
@@ -48,6 +61,7 @@ class MyApp extends StatelessWidget {
       title: 'Opticcom App',
       theme: ThemeData(
         useMaterial3: true,
+<<<<<<< HEAD
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFFF9800),
@@ -64,6 +78,9 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+=======
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFF9800)),
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
       ),
     );
   }

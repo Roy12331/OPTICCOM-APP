@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+<<<<<<< HEAD
 import 'package:url_launcher/url_launcher.dart';
+=======
+import 'package:url_launcher/url_launcher.dart'; // Asegúrate de haber ejecutado: flutter pub add url_launcher
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
 import '../models/orden_model.dart';
 
 class DetalleScreen extends StatelessWidget {
   final OrdenTrabajo orden;
   const DetalleScreen({super.key, required this.orden});
 
+<<<<<<< HEAD
   Future<void> _abrirMapa(BuildContext context) async {
     // Validamos
+=======
+  // FUNCIÓN PARA ABRIR GPS
+  Future<void> _abrirMapa(BuildContext context) async {
+    // Validamos que haya coordenadas
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
     if (orden.coordenadas == null || orden.coordenadas!.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -19,11 +29,20 @@ class DetalleScreen extends StatelessWidget {
       return;
     }
 
+<<<<<<< HEAD
+=======
+    // Creamos la URL universal de Google Maps (funciona en Android y iOS)
+    // Formato esperado de coordenadas: "-12.06513,-75.20486" (Lat,Long sin espacios)
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
     final googleMapsUrl = Uri.parse(
       "https://www.google.com/maps/search/?api=1&query=${orden.coordenadas}",
     );
 
     try {
+<<<<<<< HEAD
+=======
+      // Intentamos abrir la aplicación externa (Maps/Waze)
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
       if (await canLaunchUrl(googleMapsUrl)) {
         await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
       } else {
@@ -51,6 +70,10 @@ class DetalleScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
+<<<<<<< HEAD
+=======
+          // 1. BANNER DEL MAPA (Simulado visualmente)
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
           Container(
             height: 180,
             width: double.infinity,
@@ -69,6 +92,10 @@ class DetalleScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+<<<<<<< HEAD
+=======
+                // Botón flotante encima del mapa
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
                 Positioned(
                   bottom: 20,
                   child: ElevatedButton.icon(
@@ -93,6 +120,11 @@ class DetalleScreen extends StatelessWidget {
               ],
             ),
           ),
+<<<<<<< HEAD
+=======
+
+          // 2. INFORMACIÓN DEL CLIENTE
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(25),
@@ -127,15 +159,29 @@ class DetalleScreen extends StatelessWidget {
 
                   const Divider(height: 40),
 
+<<<<<<< HEAD
+=======
+                  // 3. BOTÓN DE ACCIÓN (INICIAR)
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
                   SizedBox(
                     width: double.infinity,
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () {
+<<<<<<< HEAD
                         context.push('/formulario', extra: orden);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF9800),
+=======
+                        // Navegamos al formulario pasando la orden
+                        context.push('/formulario', extra: orden);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                          0xFFFF9800,
+                        ), // Naranja Opticcom
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -160,6 +206,10 @@ class DetalleScreen extends StatelessWidget {
     );
   }
 
+<<<<<<< HEAD
+=======
+  // Widget auxiliar para las filas de datos
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
   Widget _filaDato(IconData icon, String titulo, String valor) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),

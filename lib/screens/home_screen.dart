@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/orden_model.dart';
+<<<<<<< HEAD
 import '../services/orden_service.dart'; // 🔹 Importación del nuevo servicio
 
 class HomeScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
   const HomeScreen({super.key, required this.userData});
+=======
+import '../services/api_service.dart';
+
+class HomeScreen extends StatefulWidget {
+  final int idTecnico;
+  const HomeScreen({super.key, required this.idTecnico});
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,13 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _recargar() {
     setState(() {
+<<<<<<< HEAD
       // 🔹 Llamada al nuevo servicio separado
       _futureOrdenes = OrdenService.getOrdenes(widget.userData['id']);
+=======
+      _futureOrdenes = ApiService.getOrdenes(widget.idTecnico);
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
     });
   }
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -181,4 +194,74 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+=======
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Mis Trabajos"),
+        backgroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: _recargar, icon: const Icon(Icons.refresh)),
+        ],
+      ),
+      body: FutureBuilder<List<OrdenTrabajo>>(
+        future: _futureOrdenes,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text("No tienes órdenes asignadas"));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              final orden = snapshot.data![index];
+              return Card(
+                elevation: 3,
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: orden.prioridad == 'Alta'
+                        ? Colors.red
+                        : Colors.orange,
+                    child: Icon(
+                      orden.tipoTrabajo == 'Instalacion'
+                          ? Icons.fiber_manual_record
+                          : Icons.build,
+                      color: Colors.white,
+                    ),
+                  ),
+                  title: Text(
+                    orden.tipoTrabajo,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(orden.cliente),
+                      Text(
+                        "📍 ${orden.distrito} - ${orden.direccion}",
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      Text(
+                        "📅 ${orden.fecha}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => context.push('/detalle', extra: orden),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+>>>>>>> 359bcf543dcabbc0d90869c2574858518a60bb50
 }
